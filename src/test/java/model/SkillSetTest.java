@@ -1,7 +1,6 @@
 package model;
 
 import com.google.common.collect.Collections2;
-import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
