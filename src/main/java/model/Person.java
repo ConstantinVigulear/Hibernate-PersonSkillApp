@@ -1,43 +1,55 @@
 package model;
 
+import java.util.Objects;
+
 public class Person {
-  private String name;
-  private String surname;
-  private String email;
+  private final String name;
+  private final String surname;
+  private final String email;
 
-  public Person() {
-    name = "";
-    surname = "";
-    email = "";
-  }
-
-  public Person(String name, String surname, String email) {
-    this.name = name;
-    this.surname = surname;
-    this.email = email;
+  private Person(PersonBuilder personBuilder) {
+    this.name = personBuilder.name;
+    this.surname = personBuilder.surname;
+    this.email = personBuilder.email;
   }
 
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
   public String getSurname() {
     return surname;
-  }
-
-  public void setSurname(String surname) {
-    this.surname = surname;
   }
 
   public String getEmail() {
     return email;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public static class PersonBuilder {
+
+    private String name;
+    private String surname;
+    private String email;
+
+    public PersonBuilder() {}
+
+    public PersonBuilder name(String name) {
+      this.name = Objects.requireNonNullElse(name, "");
+      return this;
+    }
+
+    public PersonBuilder surname(String surname) {
+      this.surname = Objects.requireNonNullElse(surname, "");
+      return this;
+    }
+
+    public PersonBuilder email(String email) {
+      this.email = Objects.requireNonNullElse(email, "");
+      return this;
+    }
+
+    public Person build() {
+      return new Person(this);
+    }
   }
 }

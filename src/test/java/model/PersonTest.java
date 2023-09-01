@@ -10,24 +10,26 @@ class PersonTest {
 
   @BeforeEach
   void setUp() {
-    person = new Person();
+    person =
+        new Person.PersonBuilder()
+            .name("Kurokami")
+            .surname("Onna")
+            .email("kurokami.onna@gmail.com")
+            .build();
   }
 
   @Test
-  void testNameSetterGetter() {
-    person.setName("Kurokami");
+  void testNameGetter() {
     assertEquals("Kurokami", person.getName());
   }
 
   @Test
   void testSurnameSetterGetter() {
-    person.setSurname("Onna");
     assertEquals("Onna", person.getSurname());
   }
 
   @Test
   void testEmailSetterGetter() {
-    person.setEmail("kurokami.onna@gmail.com");
     assertEquals("kurokami.onna@gmail.com", person.getEmail());
   }
 }

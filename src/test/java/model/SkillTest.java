@@ -11,18 +11,17 @@ class SkillTest {
 
   @BeforeEach
   void setUp() {
-    skill = new Skill();
+    skill =
+        new Skill.SkillBuilder().name("Penetration Testing").domain(SkillDomain.SECURITY).build();
   }
 
   @Test
-  void testNameGetterSetter() {
-    skill.setName("Penetration Testing");
+  void testNameGetter() {
     assertEquals("Penetration Testing", skill.getName());
   }
 
   @Test
-  void testDomainGetterSetter() {
-    skill.setDomain(SkillDomain.SECURITY);
+  void testDomainGetter() {
     assertEquals(SkillDomain.SECURITY, skill.getDomain());
   }
 }

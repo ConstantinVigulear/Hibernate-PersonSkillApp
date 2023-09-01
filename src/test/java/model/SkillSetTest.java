@@ -5,8 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
-import services.Cost;
-import services.CostBasedOnLevel;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,24 +19,26 @@ public class SkillSetTest {
   SkillSet skillSet;
   Person person1;
   Skill skill1;
-  Skill skill2;
-  Skill skill3;
-
-  Cost cost;
 
   @BeforeEach
   void setup() {
-    skillSet = new SkillSet();
-    person1 = new Person("Mayu", "Arita", "mayu.arite@gmail.com");
-    skill1 = new Skill("Java Core", SkillDomain.PROGRAMMING);
+    person1 =
+        new Person.PersonBuilder()
+            .name("Nana")
+            .surname("Arita")
+            .email("nana.arite@gmail.com")
+            .build();
+
+    skillSet = new SkillSet(person1);
+
+    skill1 = new Skill.SkillBuilder().name("Java Core").domain(SkillDomain.PROGRAMMING).build();
   }
 
   @Test
   void testCostSetterGetter() {
-    cost = new CostBasedOnLevel(123);
-    skillSet.setCost(cost);
+    skillSet.setCost(123);
 
-    assertEquals(123, ((CostBasedOnLevel) (skillSet.getCost())).getValue());
+    assertEquals(123, skillSet.getCost());
   }
 
   @Test
@@ -73,7 +73,7 @@ public class SkillSetTest {
   @Test
   void testAddAnotherSkillToPerson() {
     skillSet.setPerson(person1);
-    skill2 = new Skill("MySQL", SkillDomain.PROGRAMMING);
+    Skill skill2 = new Skill.SkillBuilder().name("MySQL").domain(SkillDomain.PROGRAMMING).build();
     skillSet.addSkill(skill1, SkillLevel.LOW);
     skillSet.addSkill(skill2, SkillLevel.GODLIKE);
 
@@ -82,8 +82,8 @@ public class SkillSetTest {
 
   @Test
   void testGetAverageSkillLevel() {
-    skill2 = new Skill("MySQL", SkillDomain.PROGRAMMING);
-    skill3 = new Skill("Docker", SkillDomain.DEVOPS);
+    Skill skill2 = new Skill.SkillBuilder().name("MySQL").domain(SkillDomain.PROGRAMMING).build();
+    Skill skill3 = new Skill.SkillBuilder().name("Docker").domain(SkillDomain.DEVOPS).build();
     skillSet.setPerson(person1);
     skillSet.addSkill(skill1, SkillLevel.HIGH);
     skillSet.addSkill(skill2, SkillLevel.MEDIUM);
@@ -97,44 +97,61 @@ public class SkillSetTest {
     skillSet.setPerson(person1);
     skillSet.addSkill(skill1, SkillLevel.GODLIKE);
 
-    // 200 + 1.5
-    assertEquals(300, ((CostBasedOnLevel) skillSet.getCost()).getValue());
+    assertEquals(300, skillSet.getCost());
 
-
-    // 300 + 200*(1+0.1) =
-    skill2 = new Skill("MySQL", SkillDomain.PROGRAMMING);
+    Skill skill2 = new Skill.SkillBuilder().name("MySQL").domain(SkillDomain.PROGRAMMING).build();
     skillSet.addSkill(skill2, SkillLevel.LOW);
 
-    assertEquals(520, ((CostBasedOnLevel) skillSet.getCost()).getValue());
+    assertEquals(520, skillSet.getCost());
 
-    skill3 = new Skill("Docker", SkillDomain.DEVOPS);
+    Skill skill3 = new Skill.SkillBuilder().name("Docker").domain(SkillDomain.DEVOPS).build();
     skillSet.addSkill(skill3, SkillLevel.HIGH);
 
-    assertEquals(741, ((CostBasedOnLevel) skillSet.getCost()).getValue());
+    assertEquals(741, skillSet.getCost());
   }
 
   @TestFactory
   Stream<DynamicTest> testSkillSetCostWithPermutationOfThreeSkillsWithGodlikeLevel() {
-    skill2 = new Skill("MySQL", SkillDomain.PROGRAMMING);
-    skill3 = new Skill("Docker", SkillDomain.DEVOPS);
+
+    Skill skill2 = new Skill.SkillBuilder().name("MySQL").domain(SkillDomain.PROGRAMMING).build();
+    Skill skill3 = new Skill.SkillBuilder().name("Docker").domain(SkillDomain.DEVOPS).build();
+
+    List<Skill> skills = Arrays.asList(skill1, skill2, skill3);
+
+    return testAllPermutations(skills);
+  }
+
+  private String nameSkillSetPermutationTest(List<Skill> skills) {
+    StringBuilder name = new StringBuilder();
+
+    skills.forEach(
+        skill -> {
+          if (name.isEmpty()) {
+            name.append(skill.getName());
+          } else name.append("->").append(skill.getName());
+        });
+
+    return name.toString();
+  }
+
+  private void testPermutation(List<Skill> permutation) {
+
+    skillSet = new SkillSet(person1);
+    for (Skill skill : permutation) {
+      skillSet.addSkill(skill, SkillLevel.GODLIKE);
+    }
 
     double expected = 855;
+    double actual = skillSet.getCost();
 
-    List<Skill> list = Arrays.asList(skill1, skill2, skill3);
+    assertEquals(expected, actual);
+  }
 
+  private Stream<DynamicTest> testAllPermutations(List<Skill> list) {
     return Collections2.permutations(list).stream()
         .map(
             permutation ->
                 DynamicTest.dynamicTest(
-                    permutation.toString(),
-                    () -> {
-                      skillSet = new SkillSet();
-                      for (Skill skill : permutation) {
-                        skillSet.addSkill(skill, SkillLevel.GODLIKE);
-                      }
-                      double actual = ((CostBasedOnLevel) skillSet.getCost()).getValue();
-
-                      assertEquals(expected, actual);
-                    }));
+                    nameSkillSetPermutationTest(permutation), () -> testPermutation(permutation)));
   }
 }
