@@ -3,23 +3,23 @@ package model;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class SkillSet {
+public class SkillSet implements Cost {
   private Person person;
   private Map<Skill, SkillLevel> skills;
-  private double cost;
+  private double totalCost;
 
   public SkillSet(Person person) {
     this.person = Objects.requireNonNull(person);
     skills = new HashMap<>();
-    cost = 0.0;
+    totalCost = 0.0;
   }
 
-  public double getCost() {
-    return cost;
+  public double getTotalCost() {
+    return totalCost;
   }
 
-  public void setCost(double cost) {
-    if (cost >= 0) this.cost = cost;
+  public void setTotalCost(double totalCost) {
+    if (totalCost >= 0) this.totalCost = totalCost;
   }
 
   public Person getPerson() {
@@ -36,20 +36,19 @@ public class SkillSet {
 
   public void setSkills(Map<Skill, SkillLevel> skills) {
     this.skills = Objects.requireNonNull(skills);
+    calculateTotalCost();
   }
 
   public void addSkill(Skill skill, SkillLevel skillLevel) {
     if (skill != null && skillLevel != null) {
-      evaluateCost(skill, skillLevel);
       skills.put(skill, skillLevel);
+      totalCost += evaluateSkill(skill, skillLevel);
     }
   }
 
-  private void evaluateCost(Skill skill, SkillLevel level) {
-
-    double skillSetCost =
-        cost + skill.getDomain().getPrice() * (1 + (double) level.getLevelValue() / 10);
-    setCost(skillSetCost);
+  @Override
+  public void calculateTotalCost() {
+    skills.keySet().forEach(skill -> totalCost += evaluateSkill(skill, skills.get(skill)));
   }
 
   public SkillLevel getAverageSkillLevel() {
@@ -62,12 +61,13 @@ public class SkillSet {
     return findSkillLevelByValue(avg);
   }
 
+  private double evaluateSkill(Skill skill, SkillLevel level) {
+    return skill.getDomain().getPrice() * (1 + (double) level.getLevelValue() / 10);
+  }
+
   private int getNumberOfSkills() {
     AtomicInteger numberOfSkills = new AtomicInteger();
-    skills
-        .keySet()
-        .forEach(
-            skill -> numberOfSkills.addAndGet(1));
+    skills.keySet().forEach(skill -> numberOfSkills.addAndGet(1));
     return numberOfSkills.intValue();
   }
 

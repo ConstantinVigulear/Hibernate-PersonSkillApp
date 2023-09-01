@@ -6,10 +6,7 @@ import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,9 +33,9 @@ public class SkillSetTest {
 
   @Test
   void testCostSetterGetter() {
-    skillSet.setCost(123);
+    skillSet.setTotalCost(123);
 
-    assertEquals(123, skillSet.getCost());
+    assertEquals(123, skillSet.getTotalCost());
   }
 
   @Test
@@ -93,21 +90,41 @@ public class SkillSetTest {
   }
 
   @Test
-  void testSkillSetCostCalculation() {
+  void testSkillSetTotalCostCalculationWhenAddingSkill() {
     skillSet.setPerson(person1);
     skillSet.addSkill(skill1, SkillLevel.GODLIKE);
 
-    assertEquals(300, skillSet.getCost());
+    assertEquals(300, skillSet.getTotalCost());
 
     Skill skill2 = new Skill.SkillBuilder().name("MySQL").domain(SkillDomain.PROGRAMMING).build();
     skillSet.addSkill(skill2, SkillLevel.LOW);
 
-    assertEquals(520, skillSet.getCost());
+    assertEquals(520, skillSet.getTotalCost());
 
     Skill skill3 = new Skill.SkillBuilder().name("Docker").domain(SkillDomain.DEVOPS).build();
     skillSet.addSkill(skill3, SkillLevel.HIGH);
 
-    assertEquals(741, skillSet.getCost());
+    assertEquals(741, skillSet.getTotalCost());
+  }
+
+  @Test
+  void testSkillSetTotalCostCalculationWhenSetSkills() {
+    skillSet.setPerson(person1);
+
+    Skill skill2 = new Skill.SkillBuilder().name("MySQL").domain(SkillDomain.PROGRAMMING).build();
+    Skill skill3 = new Skill.SkillBuilder().name("Docker").domain(SkillDomain.DEVOPS).build();
+    Map<Skill, SkillLevel> skills =
+        new HashMap<>() {
+          {
+            put(skill1, SkillLevel.GODLIKE);
+            put(skill2, SkillLevel.LOW);
+            put(skill3, SkillLevel.HIGH);
+          }
+        };
+
+    skillSet.setSkills(skills);
+
+    assertEquals(741, skillSet.getTotalCost());
   }
 
   @TestFactory
@@ -142,7 +159,7 @@ public class SkillSetTest {
     }
 
     double expected = 855;
-    double actual = skillSet.getCost();
+    double actual = skillSet.getTotalCost();
 
     assertEquals(expected, actual);
   }
