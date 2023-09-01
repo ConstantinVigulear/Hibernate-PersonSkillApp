@@ -67,9 +67,7 @@ public class SkillSet {
     skills
         .keySet()
         .forEach(
-            skill -> {
-              numberOfSkills.addAndGet(1);
-            });
+            skill -> numberOfSkills.addAndGet(1));
     return numberOfSkills.intValue();
   }
 
