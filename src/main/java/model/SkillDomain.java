@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Arrays;
+
 public enum SkillDomain {
   SECURITY(150),
   DATA_ANALYSIS(160),
@@ -19,4 +21,12 @@ public enum SkillDomain {
   public int getPrice() {
     return price;
   }
+
+  public static SkillDomain getSkillDomainByName(String domainName) {
+    return Arrays.stream(SkillDomain.values())
+            .filter(e -> e.name().equals(domainName))
+            .findFirst()
+            .orElse(SkillDomain.NONE);
+  }
+
 }

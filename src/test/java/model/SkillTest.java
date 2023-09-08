@@ -24,4 +24,40 @@ class SkillTest {
   void testDomainGetter() {
     assertEquals(SkillDomain.SECURITY, skill.getDomain());
   }
+
+  @Test
+  void whenNameAndDomainThenValid() {
+    assertTrue(skill.isValid());
+  }
+
+  @Test
+  void whenNameEmptyThenNotValid() {
+    skill = new Skill.SkillBuilder().name("").domain(SkillDomain.SECURITY).build();
+
+    assertFalse(skill.isValid());
+  }
+
+  @Test
+  void whenSameNamesAndDomainsThenSkillEqual() {
+    Skill skill1 =
+        new Skill.SkillBuilder().name("Penetration Testing").domain(SkillDomain.SECURITY).build();
+
+    assertEquals(skill1, skill);
+  }
+
+  @Test
+  void whenDifferentNamesSameDomainsThenSkillNotEqual() {
+    Skill skill1 =
+            new Skill.SkillBuilder().name("SQL Injecting").domain(SkillDomain.SECURITY).build();
+
+    assertNotEquals(skill1, skill);
+  }
+
+  @Test
+  void whenDifferentDomainsSameNamesThenSkillNotEqual() {
+    Skill skill1 =
+            new Skill.SkillBuilder().name("Penetration Testing").domain(SkillDomain.PROGRAMMING).build();
+
+    assertNotEquals(skill1, skill);
+  }
 }

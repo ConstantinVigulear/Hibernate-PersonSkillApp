@@ -32,4 +32,28 @@ class PersonTest {
   void testEmailSetterGetter() {
     assertEquals("kurokami.onna@gmail.com", person.getEmail());
   }
+
+  @Test
+  void whenNameSurnameEmailEmptyThenNotValid() {
+    person = new Person.PersonBuilder().name("").surname("").email("").build();
+
+    assertFalse(person.isValid());
+  }
+
+  @Test
+  void whenAnyFieldEmptyThenNotValid() {
+    person =
+        new Person.PersonBuilder()
+            .name("")
+            .surname("Onna")
+            .email("kurokami.onna@gmail.com")
+            .build();
+
+    assertFalse(person.isValid());
+  }
+
+  @Test
+  void whenNameSurnameEmailNotEmptyThenValid() {
+    assertTrue(person.isValid());
+  }
 }

@@ -1,24 +1,43 @@
 package model;
 
+import validator.SkillSetValidator;
+import validator.Validator;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SkillSet implements Cost {
   private Person person;
   private Map<Skill, SkillLevel> skills;
-  private double totalCost;
+  private int totalCost;
+
+  public SkillSet() {
+    this.person = new Person.PersonBuilder().name("").surname("").email("").build();
+    this.skills = new HashMap<>();
+    calculateTotalCost();
+  }
 
   public SkillSet(Person person) {
-    this.person = Objects.requireNonNull(person);
-    skills = new HashMap<>();
-    totalCost = 0.0;
+    this.person =
+        Objects.requireNonNullElse(
+            person, new Person.PersonBuilder().name("").surname("").email("").build());
+    this.skills = new HashMap<>();
+    calculateTotalCost();
+  }
+
+  public SkillSet(Person person, Map<Skill, SkillLevel> skills) {
+    this.person =
+        Objects.requireNonNullElse(
+            person, new Person.PersonBuilder().name("").surname("").email("").build());
+    this.skills = Objects.requireNonNullElse(skills, new HashMap<>());
+    calculateTotalCost();
   }
 
   public double getTotalCost() {
     return totalCost;
   }
 
-  public void setTotalCost(double totalCost) {
+  public void setTotalCost(int totalCost) {
     if (totalCost >= 0) this.totalCost = totalCost;
   }
 
@@ -40,15 +59,10 @@ public class SkillSet implements Cost {
   }
 
   public void addSkill(Skill skill, SkillLevel skillLevel) {
-    if (skill != null && skillLevel != null) {
+    if (isSkillValidBeforeAdding(skill, skillLevel)) {
       skills.put(skill, skillLevel);
-      totalCost += evaluateSkill(skill, skillLevel);
+      totalCost += (int) getSkillCost(skill, skillLevel);
     }
-  }
-
-  @Override
-  public void calculateTotalCost() {
-    skills.keySet().forEach(skill -> totalCost += evaluateSkill(skill, skills.get(skill)));
   }
 
   public SkillLevel getAverageSkillLevel() {
@@ -58,10 +72,49 @@ public class SkillSet implements Cost {
 
     int avg = sumOfLevels / numberOfSkills;
 
-    return findSkillLevelByValue(avg);
+    return SkillLevel.getSkillLevelByValue(avg);
   }
 
-  private double evaluateSkill(Skill skill, SkillLevel level) {
+  public boolean isValid() {
+    Validator validator = new SkillSetValidator();
+    return validator.isValid(this);
+  }
+
+  public int getRank() {
+    RankCalculator rankCalculator = new SkillSetRankCalculator();
+    return rankCalculator.calculateRank(this);
+  }
+
+  @Override
+  public String toString() {
+    return "SkillSet{"
+        + "person="
+        + person
+        + ", skills="
+        + skills
+        + ", totalCost="
+        + totalCost
+        + '}';
+  }
+
+  @Override
+  public void calculateTotalCost() {
+    skills.keySet().forEach(skill -> totalCost += (int) getSkillCost(skill, skills.get(skill)));
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    SkillSet skillSet = (SkillSet) o;
+    return Objects.equals(person, skillSet.person);
+  }
+
+  private boolean isSkillValidBeforeAdding(Skill skill, SkillLevel skillLevel) {
+    return !skills.containsKey(skill) && skill != null && skillLevel != null;
+  }
+
+  private double getSkillCost(Skill skill, SkillLevel level) {
     return skill.getDomain().getPrice() * (1 + (double) level.getLevelValue() / 10);
   }
 
@@ -81,12 +134,5 @@ public class SkillSet implements Cost {
               sumOfLevels.addAndGet(level.getLevelValue());
             });
     return sumOfLevels.intValue();
-  }
-
-  private SkillLevel findSkillLevelByValue(int levelValue) {
-    return Arrays.stream(SkillLevel.values())
-        .filter(level -> level.getLevelValue() == levelValue)
-        .findAny()
-        .orElse(SkillLevel.NONE);
   }
 }

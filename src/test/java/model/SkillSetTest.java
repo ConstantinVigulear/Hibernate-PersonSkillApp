@@ -9,7 +9,7 @@ import org.junit.jupiter.api.TestFactory;
 import java.util.*;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SkillSetTest {
 
@@ -20,11 +20,7 @@ public class SkillSetTest {
   @BeforeEach
   void setup() {
     person1 =
-        new Person.PersonBuilder()
-            .name("Nana")
-            .surname("Arita")
-            .email("nana.arite@gmail.com")
-            .build();
+        new Person.PersonBuilder().name("test").surname("test").email("test").build();
 
     skillSet = new SkillSet(person1);
 
@@ -104,6 +100,8 @@ public class SkillSetTest {
     Skill skill3 = new Skill.SkillBuilder().name("Docker").domain(SkillDomain.DEVOPS).build();
     skillSet.addSkill(skill3, SkillLevel.HIGH);
 
+    System.out.println(skillSet.toString());
+
     assertEquals(741, skillSet.getTotalCost());
   }
 
@@ -136,6 +134,66 @@ public class SkillSetTest {
     List<Skill> skills = Arrays.asList(skill1, skill2, skill3);
 
     return testAllPermutations(skills);
+  }
+
+  @Test
+  public void whenSamePersonAndSkillsThenSkillSetsAreEqual() {
+    skillSet.setPerson(person1);
+
+    Skill skill2 = new Skill.SkillBuilder().name("MySQL").domain(SkillDomain.PROGRAMMING).build();
+    Skill skill3 = new Skill.SkillBuilder().name("Docker").domain(SkillDomain.DEVOPS).build();
+    Map<Skill, SkillLevel> skills =
+        new HashMap<>() {
+          {
+            put(skill1, SkillLevel.GODLIKE);
+            put(skill2, SkillLevel.LOW);
+            put(skill3, SkillLevel.HIGH);
+          }
+        };
+
+    skillSet.setSkills(skills);
+
+    SkillSet skillSet1 = new SkillSet(person1, skills);
+    boolean actual = skillSet.equals(skillSet1);
+
+    assertTrue(actual);
+  }
+
+  @Test
+  void whenPersonSkillsValidThenSkillSetValid() {
+    skillSet.setPerson(person1);
+    skillSet.addSkill(skill1, SkillLevel.LOW);
+    assertTrue(skillSet.isValid());
+  }
+
+  @Test
+  void whenPersonNotValidThenSkillSetNotValid() {
+    skillSet = new SkillSet(null);
+
+    Map<Skill, SkillLevel> skills =
+        new HashMap<>() {
+          {
+            put(skill1, SkillLevel.GODLIKE);
+          }
+        };
+
+    skillSet.setSkills(skills);
+
+    assertFalse(skillSet.isValid());
+  }
+
+  @Test
+  void whenSkillsEmptyThenSkillSetNotValid() {
+    skillSet = new SkillSet(null);
+
+    assertFalse(skillSet.isValid());
+  }
+
+  @Test
+  void whenGetRankThenReturnRank() {
+    skillSet.addSkill(skill1, SkillLevel.GODLIKE);
+
+    assertEquals(3, skillSet.getRank());
   }
 
   private String nameSkillSetPermutationTest(List<Skill> skills) {
