@@ -33,18 +33,6 @@
             <artifactId>guava</artifactId>
             <version>32.1.2-jre</version>
         </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20180813</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
-        <dependency>
-            <groupId>com.googlecode.json-simple</groupId>
-            <artifactId>json-simple</artifactId>
-            <version>1.1.1</version>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc10 -->
         <dependency>
@@ -67,6 +55,16 @@
             <version>5.5.0</version>
             <scope>test</scope>
         </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.6.15.Final</version>
+        </dependency>
+
+
 
 
     </dependencies>
