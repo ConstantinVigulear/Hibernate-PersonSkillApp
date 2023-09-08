@@ -19,17 +19,14 @@ class UtilsTest {
   }
 
   @Test
-   void readFromFile() {
-
-
+  void readFromFile() {
 
     Utils.readFromCSV("src/test/resources/skillSets.csv");
   }
 
   @Test
   void whenReadNonExistentFileThrowException() {
-    assertThrows(RuntimeException.class, () -> {
-      Utils.readFromCSV("src/test/resources/nonExistent.csv");
-    });
+    assertThrows(
+        RuntimeException.class, () -> Utils.readFromCSV("src/test/resources/nonExistent.csv"));
   }
 }

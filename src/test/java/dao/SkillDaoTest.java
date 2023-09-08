@@ -35,7 +35,7 @@ class SkillDaoTest {
   void save() throws SQLException, IOException {
     String expected = "1";
     skill = new Skill.SkillBuilder().name(expected).domain(SkillDomain.NONE).build();
-    String res = skillDao.save(skill);
+    skillDao.save(skill);
     skill = skillDao.get(expected);
     String actual = skill.getName();
 

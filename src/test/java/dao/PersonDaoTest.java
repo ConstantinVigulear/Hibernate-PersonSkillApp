@@ -2,7 +2,6 @@ package dao;
 
 import model.Person;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.sql.ResultSet;
