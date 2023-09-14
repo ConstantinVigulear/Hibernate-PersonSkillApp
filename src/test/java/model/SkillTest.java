@@ -3,61 +3,121 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SkillTest {
 
-  private Skill skill;
+  Skill skill1;
 
   @BeforeEach
   void setUp() {
-    skill =
-        new Skill.SkillBuilder().name("Penetration Testing").domain(SkillDomain.SECURITY).build();
+    skill1 = new Skill();
   }
 
   @Test
-  void testNameGetter() {
-    assertEquals("Penetration Testing", skill.getName());
+  void testGetSetId() {
+    skill1.setId(999L);
+
+    assertEquals(999L, skill1.getId());
   }
 
   @Test
-  void testDomainGetter() {
-    assertEquals(SkillDomain.SECURITY, skill.getDomain());
+  void testGetSetName() {
+    skill1.setName("Test");
+
+    assertEquals("Test", skill1.getName());
   }
 
   @Test
-  void whenNameAndDomainThenValid() {
-    assertTrue(skill.isValid());
+  void testGetSetDomain() {
+    skill1.setDomain(SkillDomain.PROGRAMMING);
+
+    assertEquals(SkillDomain.PROGRAMMING, skill1.getDomain());
   }
 
   @Test
-  void whenNameEmptyThenNotValid() {
-    skill = new Skill.SkillBuilder().name("").domain(SkillDomain.SECURITY).build();
+  void testGetSetLevel() {
+    skill1.setLevel(SkillLevel.GODLIKE);
 
-    assertFalse(skill.isValid());
+    assertEquals(SkillLevel.GODLIKE, skill1.getLevel());
   }
 
   @Test
-  void whenSameNamesAndDomainsThenSkillEqual() {
-    Skill skill1 =
-        new Skill.SkillBuilder().name("Penetration Testing").domain(SkillDomain.SECURITY).build();
+  void testGetSetPersons() {
 
-    assertEquals(skill1, skill);
+    skill1.setName("Test");
+
+    Person person = new Person();
+    person.setName("Test");
+    person.setSurname("Test");
+    person.setEmail("teste.test@gmail.com");
+
+    Set<Person> people = new HashSet<>();
+    people.add(person);
+    skill1.setPersons(people);
+
+    assertTrue(skill1.getPersons().contains(person));
   }
 
   @Test
-  void whenDifferentNamesSameDomainsThenSkillNotEqual() {
-    Skill skill1 =
-            new Skill.SkillBuilder().name("SQL Injecting").domain(SkillDomain.SECURITY).build();
+  void whenNameDomainLevelPresentThenValid() {
+    skill1.setName("Test");
+    skill1.setDomain(SkillDomain.NONE);
+    skill1.setLevel(SkillLevel.NONE);
 
-    assertNotEquals(skill1, skill);
+    assertTrue(skill1.isValid());
   }
 
   @Test
-  void whenDifferentDomainsSameNamesThenSkillNotEqual() {
-    Skill skill1 =
-            new Skill.SkillBuilder().name("Penetration Testing").domain(SkillDomain.PROGRAMMING).build();
+  void whenNameOrDomainOrLevelAbsentThenInvalid() {
+    skill1.setName("");
+    assertFalse(skill1.isValid());
+  }
 
-    assertNotEquals(skill1, skill);
+  @Test
+  void whenEqualNameDomainSkillThenEqual() {
+    skill1 = new Skill("Java Core", SkillDomain.PROGRAMMING, SkillLevel.GODLIKE);
+    Skill skill2 = new Skill("Java Core", SkillDomain.PROGRAMMING, SkillLevel.GODLIKE);
+
+    assertEquals(skill1, skill2);
+  }
+
+  @Test
+  void whenNotEqualOrNameOrDomainAndSkillThenNotEqual() {
+    skill1 = new Skill("Java Core", SkillDomain.PROGRAMMING, SkillLevel.GODLIKE);
+    Skill skill2 = new Skill("Java ++", SkillDomain.PROGRAMMING, SkillLevel.GODLIKE);
+
+    assertNotEquals(skill1, skill2);
+  }
+
+  @Test
+  void getSkillCost() {
+    skill1 = new Skill("Java Core", SkillDomain.PROGRAMMING, SkillLevel.GODLIKE);
+
+    assertEquals(300, skill1.getSkillCost());
+  }
+
+  @Test
+  void removePerson() {
+    skill1 = new Skill("Java Core", SkillDomain.PROGRAMMING, SkillLevel.GODLIKE);
+
+    Person person = new Person();
+    person.setName("Test");
+    person.setSurname("Test");
+    person.setEmail("teste.test@gmail.com");
+
+    skill1.addPerson(person);
+
+    assertTrue(skill1.getPersons().contains(person));
+    assertTrue(person.getSkills().contains(skill1));
+
+    skill1.removePerson(person);
+
+    assertFalse(skill1.getPersons().contains(person));
+    assertFalse(person.getSkills().contains(skill1));
+
   }
 }

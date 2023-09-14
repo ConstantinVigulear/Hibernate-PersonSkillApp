@@ -24,7 +24,7 @@ public enum SkillDomain {
 
   public static SkillDomain getSkillDomainByName(String domainName) {
     return Arrays.stream(SkillDomain.values())
-            .filter(e -> e.name().equals(domainName))
+            .filter(e -> e.name().equals(domainName.toUpperCase()))
             .findFirst()
             .orElse(SkillDomain.NONE);
   }

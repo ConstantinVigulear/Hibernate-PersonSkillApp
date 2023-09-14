@@ -29,7 +29,7 @@ public enum SkillLevel {
 
   public static SkillLevel getSkillLevelByName(String levelName) {
     return Arrays.stream(SkillLevel.values())
-            .filter(e -> e.name().equals(levelName))
+            .filter(e -> e.name().equals(levelName.toUpperCase()))
             .findFirst()
             .orElse(SkillLevel.NONE);
   }

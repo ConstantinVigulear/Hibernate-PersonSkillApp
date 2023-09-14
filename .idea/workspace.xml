@@ -4,22 +4,44 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0dc5996a-28dc-48b6-ae6f-f1a5e6072996" name="Changes" comment="Add Cost interface, override it in SkillSet class">
+    <list default="true" id="0dc5996a-28dc-48b6-ae6f-f1a5e6072996" name="Changes" comment="Initial commit">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/SkillDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/comparator/SkillSetComparator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/Dao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/Dao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PersonDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/SkillDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/SkillSetDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Cost.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/RankCalculator.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Skill.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Skill.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/SkillDomain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/SkillDomain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/SkillLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/SkillLevel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/SkillSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/SkillSet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/PersonTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/PersonTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/SkillSetTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/SkillSetTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/model/SkillTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/model/SkillTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/SkillSet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/SkillSetRankCalculator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/Utils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/validator/SkillSetValidator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/validator/SkillValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/validator/SkillValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/comparator/SkillSetComparatorTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/dao/PersonDaoTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/dao/SkillDaoTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/dao/SkillSetDaoTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/model/PersonTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/model/SkillSetTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/model/SkillTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/utils/UtilsTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageOptionsProvider">
+    <option name="myAddOrReplace" value="0" />
   </component>
   <component name="ExportToHTMLSettings">
     <option name="OUTPUT_DIRECTORY" value="C:\Users\crme059\OneDrive - ION\IdeaProjects\PersonSkillsApp\htmlReport" />
@@ -29,18 +51,21 @@
       <list>
         <option value="Enum" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="develop" />
+        <entry key="$PROJECT_DIR$" value="refactor" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -53,34 +78,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "refactor",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/crme059/OneDrive - ION/IdeaProjects/PersonSkillsApp",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.idesettings.debugger.capture",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;hibernate&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/crme059/OneDrive - ION/IdeaProjects/PersonSkillsApp/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.idesettings.debugger.capture&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "oracle"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;oracle&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\crme059\OneDrive - ION\IdeaProjects\PersonSkillsApp\src\main\resources" />
+    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
@@ -88,13 +117,21 @@
       <recent name="model" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
-      <recent name="comparator" />
+      <recent name="services" />
+      <recent name="model" />
       <recent name="dao" />
       <recent name="utils" />
-      <recent name="model" />
+      <recent name="comparator" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.UtilsTest.readFromFile">
+  <component name="RunManager" selected="JUnit.All in PersonSkillsApp">
+    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="App" />
+      <module name="PersonSkillsApp" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="All in PersonSkillsApp" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PersonSkillsApp" />
       <option name="PACKAGE_NAME" value="" />
@@ -103,65 +140,49 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PersonDaoTest.save" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PersonServiceImplTest.whenDeletePersonRemoveFromSkills" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PersonSkillsApp" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="dao.*" />
+          <option name="PATTERN" value="services.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="dao" />
-      <option name="MAIN_CLASS_NAME" value="dao.PersonDaoTest" />
-      <option name="METHOD_NAME" value="save" />
+      <option name="PACKAGE_NAME" value="services" />
+      <option name="MAIN_CLASS_NAME" value="services.PersonServiceImplTest" />
+      <option name="METHOD_NAME" value="whenDeletePersonRemoveFromSkills" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PersonDaoTest.whenPersonsTableIsEmptyThenReturnZero" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PersonTest.testCalculateTotalCost" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PersonSkillsApp" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="dao.*" />
+          <option name="PATTERN" value="model.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="dao" />
-      <option name="MAIN_CLASS_NAME" value="dao.PersonDaoTest" />
-      <option name="METHOD_NAME" value="whenPersonsTableIsEmptyThenReturnZero" />
+      <option name="PACKAGE_NAME" value="model" />
+      <option name="MAIN_CLASS_NAME" value="model.PersonTest" />
+      <option name="METHOD_NAME" value="testCalculateTotalCost" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SkillSetDaoTest.get" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SkillServiceImplTest.whenDeleteSkillThenRemoveItFromPerson" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PersonSkillsApp" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="dao.*" />
+          <option name="PATTERN" value="services.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="dao" />
-      <option name="MAIN_CLASS_NAME" value="dao.SkillSetDaoTest" />
-      <option name="METHOD_NAME" value="get" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UtilsTest.readFromFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="PersonSkillsApp" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="utils.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="utils" />
-      <option name="MAIN_CLASS_NAME" value="utils.UtilsTest" />
-      <option name="METHOD_NAME" value="readFromFile" />
+      <option name="PACKAGE_NAME" value="services" />
+      <option name="MAIN_CLASS_NAME" value="services.SkillServiceImplTest" />
+      <option name="METHOD_NAME" value="whenDeleteSkillThenRemoveItFromPerson" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -169,11 +190,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.UtilsTest.readFromFile" />
         <item itemvalue="JUnit.All in PersonSkillsApp" />
-        <item itemvalue="JUnit.PersonDaoTest.save" />
-        <item itemvalue="JUnit.SkillSetDaoTest.get" />
-        <item itemvalue="JUnit.PersonDaoTest.whenPersonsTableIsEmptyThenReturnZero" />
+        <item itemvalue="JUnit.PersonServiceImplTest.whenDeletePersonRemoveFromSkills" />
+        <item itemvalue="JUnit.SkillServiceImplTest.whenDeleteSkillThenRemoveItFromPerson" />
+        <item itemvalue="Application.App" />
+        <item itemvalue="JUnit.PersonTest.testCalculateTotalCost" />
       </list>
     </recent_temporary>
   </component>
@@ -197,7 +218,12 @@
       <workItem from="1693404389430" duration="12729000" />
       <workItem from="1693810361939" duration="38731000" />
       <workItem from="1693928554005" duration="42848000" />
-      <workItem from="1694087890236" duration="24395000" />
+      <workItem from="1694087890236" duration="25083000" />
+      <workItem from="1694175837874" duration="264000" />
+      <workItem from="1694176197708" duration="31089000" />
+      <workItem from="1694512214479" duration="13930000" />
+      <workItem from="1694585819414" duration="24972000" />
+      <workItem from="1694611254934" duration="28999000" />
     </task>
     <task id="LOCAL-00001" summary="Commit the project">
       <option name="closed" value="true" />
@@ -255,7 +281,31 @@
       <option name="project" value="LOCAL" />
       <updated>1693566468713</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Clean Code + Refactoring">
+      <option name="closed" value="true" />
+      <created>1694175326064</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1694175326064</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Review code analysis">
+      <option name="closed" value="true" />
+      <created>1694175595051</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1694175595051</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Initial commit">
+      <option name="closed" value="true" />
+      <created>1694176021647</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1694176021647</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -269,19 +319,55 @@
     <MESSAGE value="Refactor further" />
     <MESSAGE value="Add Cost interface, refactor SkillSet, add testSkillSetTotalCostCalculationWhenSetSkills, modify testSkillSetTotalCostCalculationWhenAddingSkill" />
     <MESSAGE value="Add Cost interface, override it in SkillSet class" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Cost interface, override it in SkillSet class" />
+    <MESSAGE value="Clean Code + Refactoring" />
+    <MESSAGE value="Review code analysis" />
+    <MESSAGE value="Initial commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/services/PersonServiceImplTest.java</url>
+          <line>75</line>
+          <option name="timeStamp" value="60" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/App.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="79" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/services/SkillServiceImplTest.java</url>
+          <line>105</line>
+          <option name="timeStamp" value="90" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
+        <PinnedItemInfo parentTag="model.Person" memberName="skills" />
         <PinnedItemInfo parentTag="java.util.HashMap$Node" memberName="value" />
       </pinned-members>
     </pin-to-top-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/PersonSkillsApp$SkillSetTest.ic" NAME="SkillSetTest Coverage Results" MODIFIED="1693298200347" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/PersonSkillsApp$model_in_PersonSkillsApp__1_.ic" NAME="model in PersonSkillsApp (1) Coverage Results" MODIFIED="1694601444442" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>model.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/PersonSkillsApp$All_in_PersonSkillsApp__1_.ic" NAME="All in PersonSkillsApp (1) Coverage Results" MODIFIED="1693311706387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/PersonSkillsApp$PersonDaoImplTest.ic" NAME="PersonDaoImplTest Coverage Results" MODIFIED="1694591597270" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>dao.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/PersonSkillsApp$model_in_PersonSkillsApp.ic" NAME="model in PersonSkillsApp Coverage Results" MODIFIED="1694599949293" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/PersonSkillsApp$java_in_PersonSkillsApp.ic" NAME="java in PersonSkillsApp Coverage Results" MODIFIED="1693298278099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/PersonSkillsApp$All_in_PersonSkillsApp.ic" NAME="All in PersonSkillsApp Coverage Results" MODIFIED="1694168298308" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/PersonSkillsApp$services_in_PersonSkillsApp.ic" NAME="services in PersonSkillsApp Coverage Results" MODIFIED="1694608999040" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>services.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/PersonSkillsApp$dao_in_PersonSkillsApp.ic" NAME="dao in PersonSkillsApp Coverage Results" MODIFIED="1694602814365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>dao.PersonDaoImpl</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/PersonSkillsApp$All_in_PersonSkillsApp.ic" NAME="All in PersonSkillsApp Coverage Results" MODIFIED="1694695989665" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

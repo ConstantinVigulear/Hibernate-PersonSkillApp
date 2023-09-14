@@ -1,46 +1,101 @@
 package model;
 
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import validator.PersonValidator;
 import validator.Validator;
 
-import java.util.Objects;
-
+@Entity
+@Table(name = "persons")
 public class Person {
-  private final String name;
-  private final String surname;
-  private final String email;
 
-  private Person(PersonBuilder personBuilder) {
-    this.name = personBuilder.name;
-    this.surname = personBuilder.surname;
-    this.email = personBuilder.email;
+  @Id
+  @GeneratedValue
+  @Column(name = "id", nullable = false, unique = true)
+  private Long id;
+
+  @Column(name = "name", nullable = false)
+  private String name;
+
+  @Column(name = "surname", nullable = false)
+  private String surname;
+
+  @Column(name = "email", nullable = false)
+  private String email;
+
+  @ManyToMany(
+      fetch = FetchType.EAGER,
+      cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+  @JoinTable(
+      name = "persons_skills",
+      joinColumns = @JoinColumn(name = "user_id", nullable = false),
+      inverseJoinColumns = @JoinColumn(name = "skill_id", nullable = false))
+  private Set<Skill> skills = new HashSet<>();
+
+  @Column(name = "total_cost", nullable = false)
+  private int totalCost = 0;
+
+  public Person() {}
+
+  public Person(String name, String surname, String email) {
+    this.name = name;
+    this.surname = surname;
+    this.email = email;
+    this.skills = new HashSet<>();
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public String getName() {
     return name;
   }
 
+  public void setName(String name) {
+    this.name = name;
+  }
+
   public String getSurname() {
     return surname;
+  }
+
+  public void setSurname(String surname) {
+    this.surname = surname;
   }
 
   public String getEmail() {
     return email;
   }
 
-  @Override
-  public String toString() {
-    return "Person{"
-        + "name='"
-        + name
-        + '\''
-        + ", surname='"
-        + surname
-        + '\''
-        + ", email='"
-        + email
-        + '\''
-        + '}';
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public Set<Skill> getSkills() {
+    return skills;
+  }
+
+  public void setSkills(Set<Skill> skills) {
+    skills.forEach(
+        skill -> {
+          totalCost += (int) skill.getSkillCost();
+          skill.addPerson(this);
+        });
+    this.skills = skills;
+  }
+
+  public int getTotalCost() {
+    return totalCost;
   }
 
   @Override
@@ -53,36 +108,35 @@ public class Person {
         && Objects.equals(email, person.email);
   }
 
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, surname, email);
+  }
+
   public boolean isValid() {
     Validator validator = new PersonValidator();
     return validator.isValid(this);
   }
 
-  public static class PersonBuilder {
-
-    private String name;
-    private String surname;
-    private String email;
-
-    public PersonBuilder() {}
-
-    public PersonBuilder name(String name) {
-      this.name = Objects.requireNonNullElse(name, "");
-      return this;
+  public void addSkill(Skill skill) {
+    if (skill.isValid()) {
+      skills.add(skill);
+      skill.getPersons().add(this);
+      totalCost += (int) skill.getSkillCost();
     }
+  }
 
-    public PersonBuilder surname(String surname) {
-      this.surname = Objects.requireNonNullElse(surname, "");
-      return this;
-    }
+  public void removeSkill(Skill skill) {
+    this.skills.remove(skill);
+    skill.getPersons().remove(this);
+    this.totalCost -= (int) skill.getSkillCost();
+  }
 
-    public PersonBuilder email(String email) {
-      this.email = Objects.requireNonNullElse(email, "");
-      return this;
+  public void calculateTotalCost() {
+    int totalCost = 0;
+    for (Skill skill : skills) {
+      totalCost += (int) skill.getSkillCost();
     }
-
-    public Person build() {
-      return new Person(this);
-    }
+    this.totalCost = totalCost;
   }
 }

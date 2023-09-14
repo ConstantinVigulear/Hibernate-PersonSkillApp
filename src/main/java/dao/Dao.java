@@ -1,18 +1,23 @@
 package dao;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 public interface Dao<T> {
 
-    <L> T get(L id) throws SQLException, IOException;
+  T get(Long id);
 
-    List<T> getAll();
+  T get(T t);
 
-    <L> L save(T t) throws SQLException, IOException;
+  List<T> getAll();
 
-    void update(T t);
+  void persist(T t);
 
-    void delete(T t);
+  void persistAll(List<T> t);
+
+  void update(T t);
+
+  void delete(T t);
+
+  void deleteAll(List<T> t);
+
 }
