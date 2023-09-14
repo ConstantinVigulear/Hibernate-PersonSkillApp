@@ -1,9 +1,6 @@
 package model;
 
 import jakarta.persistence.*;
-import org.checkerframework.common.aliasing.qual.Unique;
-import org.hibernate.Session;
-import utils.HibernateUtil;
 import validator.SkillValidator;
 import validator.Validator;
 

@@ -5,8 +5,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import validator.PersonValidator;
 import validator.Validator;
 

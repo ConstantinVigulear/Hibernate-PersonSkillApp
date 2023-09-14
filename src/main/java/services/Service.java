@@ -4,18 +4,18 @@ import java.util.List;
 
 public interface Service<T> {
 
-    public void persist(T entity);
+    void persist(T entity);
 
-    public void persistAll(List<T> entities);
+    void persistAll(List<T> entities);
 
-    public void update(T entity);
+    void update(T entity);
 
-    public T findById(Long id);
-    public T findByEntity(T t);
+    T findById(Long id);
+    T findByEntity(T t);
 
-    public void delete(T entity);
+    void delete(T entity);
 
-    public List<T> findAll();
+    List<T> findAll();
 
-    public void deleteAll(List<T> entities);
+    void deleteAll(List<T> entities);
 }
