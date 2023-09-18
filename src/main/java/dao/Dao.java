@@ -14,7 +14,7 @@ public interface Dao<T> {
 
   void persistAll(List<T> t);
 
-  void update(T t);
+  T update(T t);
 
   void delete(T t);
 

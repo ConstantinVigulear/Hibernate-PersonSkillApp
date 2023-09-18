@@ -1,23 +1,24 @@
 package dao;
 
-import org.hibernate.Session;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceException;
 import utils.HibernateUtil;
 
 import java.util.List;
 
 public abstract class AbstractDao<T> implements Dao<T> {
 
-  private Session session;
+  EntityManager entityManager;
 
   @Override
   public void persist(T t) {
-    session = HibernateUtil.getSessionFactory().openSession();
-    session.beginTransaction();
-    session.persist(t);
+    entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
+    entityManager.getTransaction().begin();
+    entityManager.persist(t);
 
-    if (session != null) {
-      session.getTransaction().commit();
-      session.close();
+    if (entityManager != null) {
+      entityManager.getTransaction().commit();
+      entityManager.close();
     }
   }
 
@@ -27,31 +28,33 @@ public abstract class AbstractDao<T> implements Dao<T> {
   }
 
   @Override
-  public void update(T t) {
-    session = HibernateUtil.getSessionFactory().openSession();
-    session.beginTransaction();
+  public T update(T t) {
+    entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
+    entityManager.getTransaction().begin();
 
-    session.merge(t);
+    T returnedT = null;
 
-    if (session != null) {
-      session.getTransaction().commit();
-      session.close();
+    try {
+      returnedT = entityManager.merge(t);
+      entityManager.getTransaction().commit();
+      entityManager.close();
+    } catch (PersistenceException exception) {
+        exception.printStackTrace();
     }
+    return returnedT;
   }
 
   @Override
   public void delete(T t) {
 
-    T objectToDelete = get(t);
-    if (objectToDelete != null) {
-      session = HibernateUtil.getSessionFactory().openSession();
-      session.beginTransaction();
-      session.remove(objectToDelete);
+    entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
+    entityManager.getTransaction().begin();
 
-      if (session != null) {
-        session.getTransaction().commit();
-        session.close();
-      }
+    entityManager.remove(t);
+
+    if (entityManager != null) {
+      entityManager.getTransaction().commit();
+      entityManager.close();
     }
   }
 

@@ -1,34 +1,29 @@
 package dao;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import model.Person;
 import model.Skill;
-import org.hibernate.Session;
-import org.hibernate.query.SelectionQuery;
 import utils.HibernateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SkillDaoImpl extends AbstractDao<Skill> implements SkillDao {
-  private Session session;
+  private EntityManager entityManager;
 
   @Override
   public Skill get(Long id) {
 
-    Skill resultSkill;
+    entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
+    Skill skillToFind = entityManager.find(Skill.class, id);
+    entityManager.close();
 
-    session = HibernateUtil.getSessionFactory().openSession();
-    resultSkill = session.get(Skill.class, id);
-
-    if (session != null) {
-      session.close();
-    }
-
-    return resultSkill;
+    return skillToFind;
   }
 
   @Override
@@ -36,21 +31,19 @@ public class SkillDaoImpl extends AbstractDao<Skill> implements SkillDao {
 
     Skill resultSkill = null;
 
-    session = HibernateUtil.getSessionFactory().openSession();
+    entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
 
     String hql = "FROM Skill S WHERE S.name = :name and S.domain = :domain and S.level = :level";
-    SelectionQuery<?> query = session.createSelectionQuery(hql);
+    Query query = entityManager.createQuery(hql);
     query.setParameter("name", skill.getName());
     query.setParameter("domain", skill.getDomain());
     query.setParameter("level", skill.getLevel());
 
-    if (!query.list().isEmpty()) {
-      resultSkill = (Skill) query.list().get(0);
+    if (!query.getResultList().isEmpty()) {
+      resultSkill = (Skill) query.getResultList().get(0);
     }
 
-    if (session != null) {
-      session.close();
-    }
+    entityManager.close();
 
     return resultSkill;
   }
@@ -58,21 +51,17 @@ public class SkillDaoImpl extends AbstractDao<Skill> implements SkillDao {
   @Override
   public List<Skill> getAll() {
 
-    session = HibernateUtil.getSessionFactory().openSession();
+    entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
 
-    CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
     CriteriaQuery<Skill> criteriaBuilderQuery = criteriaBuilder.createQuery(Skill.class);
     Root<Skill> rootEntry = criteriaBuilderQuery.from(Skill.class);
     CriteriaQuery<Skill> criteriaQuery = criteriaBuilderQuery.select(rootEntry);
-    TypedQuery<Skill> allQuery = session.createQuery(criteriaQuery);
+    TypedQuery<Skill> allQuery = entityManager.createQuery(criteriaQuery);
 
-    List<Skill> results = allQuery.getResultList();
+    entityManager.close();
 
-    if (session != null) {
-      session.close();
-    }
-
-    return results;
+    return allQuery.getResultList();
   }
 
   @Override
@@ -80,12 +69,14 @@ public class SkillDaoImpl extends AbstractDao<Skill> implements SkillDao {
 
     if (get(skill) == null && skill.isValid()) {
       super.persist(skill);
+    } else {
+      super.update(skill);
     }
   }
 
   @Override
-  public void update(Skill skill) {
-    super.update(skill);
+  public Skill update(Skill skill) {
+    Skill updatedSkill = super.update(skill);
 
     List<Person> people = new ArrayList<>(skill.getPersons());
 
@@ -93,45 +84,41 @@ public class SkillDaoImpl extends AbstractDao<Skill> implements SkillDao {
 
   }
 
-  @Override
-  public void delete(Skill skill) {
+  private void updatePeople(List<Person> people) {
+    people.forEach(
+            person -> {
+              int oldTotalCost = person.getTotalCost();
+              person.calculateTotalCost();
+              int newTotalCost = person.getTotalCost();
 
-    removeSkillFromPeople(skill);
+              if (oldTotalCost != newTotalCost) {
+                entityManager.merge(person);
+              }
+            }
+    );
+  }
 
-    Skill skillToDelete = get(skill);
-    session = HibernateUtil.getSessionFactory().openSession();
-    session.beginTransaction();
-
-    List<Person> people = new ArrayList<>(skillToDelete.getPersons());
-
+  private void removeSkillFromRemotePeople(Skill skill, List<Person> people) {
     people.forEach(
         person -> {
-          TypedQuery<Person> query = getPersonTypedQuery(person);
+          TypedQuery<Person> queryPersonFromDataBase = getPersonFromDataBase(person);
 
-          if (!query.getResultList().isEmpty()) {
+          if (!queryPersonFromDataBase.getResultList().isEmpty()) {
 
-            Person foundPerson = query.getResultList().get(0);
+            Person foundPerson = queryPersonFromDataBase.getResultList().get(0);
             foundPerson.removeSkill(skill);
-            session.merge(foundPerson);
+            entityManager.merge(foundPerson);
           }
         });
-
-    if (session != null) {
-      session.getTransaction().commit();
-      session.close();
-    }
-
-    super.delete(skill);
   }
 
-  private static void removeSkillFromPeople(Skill skill) {
-    (new ArrayList<>(skill.getPersons())).forEach(
-            person -> person.removeSkill(skill));
+  private static void removeSkillFromLocalPeople(Skill skill) {
+    (new ArrayList<>(skill.getPersons())).forEach(person -> person.removeSkill(skill));
   }
 
-  private TypedQuery<Person> getPersonTypedQuery(Person person) {
+  private TypedQuery<Person> getPersonFromDataBase(Person person) {
     TypedQuery<Person> query =
-        session.createQuery("select p from Person p " + "where p.id = :id", Person.class);
+        entityManager.createQuery("select p from Person p " + "where p.id = :id", Person.class);
     query.setParameter("id", person.getId());
     return query;
   }

@@ -8,7 +8,7 @@ public interface Service<T> {
 
     void persistAll(List<T> entities);
 
-    void update(T entity);
+    T update(T entity);
 
     T findById(Long id);
     T findByEntity(T t);

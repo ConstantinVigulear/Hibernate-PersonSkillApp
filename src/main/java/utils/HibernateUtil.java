@@ -4,19 +4,20 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import jakarta.persistence.EntityManagerFactory;
 import model.Person;
 import model.Skill;
-import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 public class HibernateUtil {
   private static final String URL = "src/main/resources/application.properties";
-  private static SessionFactory sessionFactory;
+  private static EntityManagerFactory entityManagerFactory;
 
-  public static synchronized SessionFactory getSessionFactory() {
-    if (sessionFactory == null) {
+  public static EntityManagerFactory getEntityManagerFactory() {
+    if (entityManagerFactory == null) {
 
       Properties props = getProperties(URL);
 
@@ -28,9 +29,9 @@ public class HibernateUtil {
       ServiceRegistry serviceRegistry =
           new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 
-      sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+      entityManagerFactory = configuration.buildSessionFactory(serviceRegistry);
     }
-    return sessionFactory;
+    return entityManagerFactory;
   }
 
   public static Properties getProperties(String url) {

@@ -2,10 +2,12 @@ package services;
 
 import dao.Dao;
 import dao.PersonDaoImpl;
+import jakarta.transaction.Transactional;
 import model.Person;
 
 import java.util.List;
 
+@Transactional
 public class PersonServiceImpl implements PersonService {
 
   private final Dao<Person> personDao = new PersonDaoImpl();
@@ -21,8 +23,8 @@ public class PersonServiceImpl implements PersonService {
   }
 
   @Override
-  public void update(Person entity) {
-    personDao.update(entity);
+  public Person update(Person entity) {
+    return personDao.update(entity);
   }
 
   @Override

@@ -2,6 +2,7 @@ package services;
 
 import dao.Dao;
 import dao.SkillDaoImpl;
+import jakarta.transaction.Transactional;
 import model.Skill;
 
 import java.util.List;
@@ -21,8 +22,8 @@ public class SkillServiceImpl implements SkillService {
   }
 
   @Override
-  public void update(Skill entity) {
-    skillDao.update(entity);
+  public Skill update(Skill entity) {
+    return skillDao.update(entity);
   }
 
   @Override

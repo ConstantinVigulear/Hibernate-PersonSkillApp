@@ -9,7 +9,7 @@ class HibernateUtilTest {
 
   @Test
   void whenGetSessionFactoryThenSessionFactoryNotNull() {
-    assertNotNull(HibernateUtil.getSessionFactory());
+    assertNotNull(HibernateUtil.getEntityManagerFactory());
   }
 
   @Test

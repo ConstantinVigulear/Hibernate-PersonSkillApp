@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Synchronize;
 import validator.PersonValidator;
 import validator.Validator;
 
@@ -117,7 +118,7 @@ public class Person {
   }
 
   public void addSkill(Skill skill) {
-    if (skill.isValid()) {
+    if (skill.isValid() && !skills.contains(skill)) {
       skills.add(skill);
       skill.getPersons().add(this);
       totalCost += (int) skill.getSkillCost();

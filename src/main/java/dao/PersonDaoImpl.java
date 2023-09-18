@@ -1,34 +1,30 @@
 package dao;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import model.Person;
 import model.Skill;
-import org.hibernate.Session;
-import org.hibernate.query.SelectionQuery;
 import utils.HibernateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PersonDaoImpl extends AbstractDao<Person> implements PersonDao {
-  private Session session;
+  private EntityManager entityManager;
 
   @Override
   public Person get(Long id) {
 
-    Person resultPerson;
 
-    session = HibernateUtil.getSessionFactory().openSession();
-    resultPerson = session.get(Person.class, id);
+    entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
+    Person person = entityManager.find(Person.class, id);
+    entityManager.close();
 
-    if (session != null) {
-      session.close();
-    }
-
-    return resultPerson;
+    return person;
   }
 
   @Override
@@ -36,21 +32,19 @@ public class PersonDaoImpl extends AbstractDao<Person> implements PersonDao {
 
     Person resultPerson = null;
 
-    session = HibernateUtil.getSessionFactory().openSession();
+    entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
 
     String hql = "FROM Person P WHERE P.name = :name and P.surname = :surname and P.email = :email";
-    SelectionQuery<?> query = session.createSelectionQuery(hql);
+    Query query = entityManager.createQuery(hql);
     query.setParameter("name", person.getName());
     query.setParameter("surname", person.getSurname());
     query.setParameter("email", person.getEmail());
 
-    if (!query.list().isEmpty()) {
-      resultPerson = (Person) query.list().get(0);
+    if (!query.getResultList().isEmpty()) {
+      resultPerson = (Person) query.getResultList().get(0);
     }
 
-    if (session != null) {
-      session.close();
-    }
+    entityManager.close();
 
     return resultPerson;
   }
@@ -58,28 +52,24 @@ public class PersonDaoImpl extends AbstractDao<Person> implements PersonDao {
   @Override
   public List<Person> getAll() {
 
-    session = HibernateUtil.getSessionFactory().openSession();
+    entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
 
-    CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
     CriteriaQuery<Person> criteriaBuilderQuery = criteriaBuilder.createQuery(Person.class);
     Root<Person> rootEntry = criteriaBuilderQuery.from(Person.class);
     CriteriaQuery<Person> criteriaQuery = criteriaBuilderQuery.select(rootEntry);
-    TypedQuery<Person> allQuery = session.createQuery(criteriaQuery);
+    TypedQuery<Person> allQuery = entityManager.createQuery(criteriaQuery);
 
-    List<Person> results = allQuery.getResultList();
-
-    if (session != null) {
-      session.close();
-    }
-
-    return results;
+    entityManager.close();
+    return allQuery.getResultList();
   }
 
   @Override
   public void persist(Person person) {
-
     if (get(person) == null && person.isValid()) {
       super.persist(person);
+    } else {
+      super.update(person);
     }
   }
 
@@ -89,8 +79,8 @@ public class PersonDaoImpl extends AbstractDao<Person> implements PersonDao {
   }
 
   @Override
-  public void update(Person person) {
-      super.update(person);
+  public Person update(Person person) {
+    return super.update(person);
   }
 
   @Override
