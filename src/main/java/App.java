@@ -4,7 +4,6 @@ import model.SkillDomain;
 import model.SkillLevel;
 import services.PersonServiceImpl;
 import services.Service;
-import services.SkillService;
 import services.SkillServiceImpl;
 
 

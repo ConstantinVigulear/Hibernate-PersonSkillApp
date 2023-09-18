@@ -5,7 +5,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Synchronize;
 import validator.PersonValidator;
 import validator.Validator;
 

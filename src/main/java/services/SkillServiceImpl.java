@@ -2,7 +2,6 @@ package services;
 
 import dao.Dao;
 import dao.SkillDaoImpl;
-import jakarta.transaction.Transactional;
 import model.Skill;
 
 import java.util.List;
