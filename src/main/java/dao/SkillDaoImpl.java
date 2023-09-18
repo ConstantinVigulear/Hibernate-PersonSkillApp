@@ -80,8 +80,30 @@ public class SkillDaoImpl extends AbstractDao<Skill> implements SkillDao {
 
     List<Person> people = new ArrayList<>(skill.getPersons());
 
-    people.forEach(Person::calculateTotalCost);
+    updatePeople(people);
 
+    return updatedSkill;
+  }
+
+  @Override
+  public void delete(Skill skill) {
+
+    removeSkillFromLocalPeople(skill);
+
+    Skill skillToDelete = get(skill);
+    entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
+    entityManager.getTransaction().begin();
+
+    List<Person> people = new ArrayList<>(skillToDelete.getPersons());
+
+    removeSkillFromRemotePeople(skill, people);
+
+    if (entityManager != null) {
+      entityManager.getTransaction().commit();
+      entityManager.close();
+    }
+
+    super.delete(skill);
   }
 
   private void updatePeople(List<Person> people) {
