@@ -53,15 +53,11 @@ public class SkillDaoImpl extends AbstractDao<Skill> implements SkillDao {
 
     entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
 
-    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-    CriteriaQuery<Skill> criteriaBuilderQuery = criteriaBuilder.createQuery(Skill.class);
-    Root<Skill> rootEntry = criteriaBuilderQuery.from(Skill.class);
-    CriteriaQuery<Skill> criteriaQuery = criteriaBuilderQuery.select(rootEntry);
-    TypedQuery<Skill> allQuery = entityManager.createQuery(criteriaQuery);
+    List<Skill> skills = entityManager.createQuery("from Skill ", Skill.class).getResultList();
 
     entityManager.close();
 
-    return allQuery.getResultList();
+    return skills;
   }
 
   @Override

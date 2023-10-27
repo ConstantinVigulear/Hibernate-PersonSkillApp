@@ -54,14 +54,10 @@ public class PersonDaoImpl extends AbstractDao<Person> implements PersonDao {
 
     entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
 
-    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-    CriteriaQuery<Person> criteriaBuilderQuery = criteriaBuilder.createQuery(Person.class);
-    Root<Person> rootEntry = criteriaBuilderQuery.from(Person.class);
-    CriteriaQuery<Person> criteriaQuery = criteriaBuilderQuery.select(rootEntry);
-    TypedQuery<Person> allQuery = entityManager.createQuery(criteriaQuery);
+    List<Person> people = entityManager.createQuery("from Person ", Person.class).getResultList();
 
     entityManager.close();
-    return allQuery.getResultList();
+    return people;
   }
 
   @Override
